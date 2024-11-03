@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "install-deps": "cd src && npm install",
-    "start": "node src/index.js"  // Agregado para que funcione en producción
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
