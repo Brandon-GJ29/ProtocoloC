@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "install-and-start": "npm install && npm start",  // Nuevo script
+    "install-and-start": "npm install && npm start",  
     "start": "node src/index.js"
   },
   "dependencies": {
