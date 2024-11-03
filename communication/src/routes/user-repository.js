@@ -1,7 +1,7 @@
 import DBlocal from 'db-local';
 import crypto from 'crypto';
 import forge from 'node-forge';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs'; // Cambiar a bcryptjs
 import fs from 'fs';
 
 const { Schema } = new DBlocal({ path: './db' });
@@ -62,7 +62,7 @@ export class UserRepository {
             console.log('Usuario encontrado:', user);
 
             // Comparar la contraseña ingresada con el hash almacenado
-            const isMatch = await bcrypt.compare(password, user.password);
+            const isMatch = await bcrypt.compare(password, user.password); // Seguir usando bcrypt
             if (!isMatch) {
                 console.log('Contraseña incorrecta');
                 return null; // Contraseña incorrecta
