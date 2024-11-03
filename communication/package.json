@@ -12,7 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "bcrypt": "^5.1.1",  
+    "bcryptjs": "^2.4.3",  // Se reemplaza bcrypt por bcryptjs
     "crypto": "^1.0.1",
     "crypto-js": "^4.2.0",
     "db-local": "^3.1.0",
