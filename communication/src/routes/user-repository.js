@@ -1,7 +1,7 @@
 import DBlocal from 'db-local';
 import crypto from 'crypto';
 import forge from 'node-forge';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import fs from 'fs';
 
 const { Schema } = new DBlocal({ path: './db' });
