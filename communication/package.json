@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "install-deps": "npm install", 
+    "install-and-start": "npm install && npm start",  // Nuevo script
     "start": "node src/index.js"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3", 
+    "bcryptjs": "^2.4.3",
     "crypto": "^1.0.1",
     "crypto-js": "^4.2.0",
     "db-local": "^3.1.0",
