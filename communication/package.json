@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "install-deps": "npm install", // Cambiado para que no cambie de directorio
+    "install-deps": "npm install", 
     "start": "node src/index.js"
   },
   "dependencies": {
