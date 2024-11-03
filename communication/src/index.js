@@ -30,23 +30,23 @@ const generateSymmetricKey = () => crypto.randomBytes(32);
 
 // Función para cifrar un mensaje usando AES
 const encryptMessage = (message, symmetricKey) => {
-    const iv = crypto.randomBytes(16); // Generar un vector de inicialización aleatorio
-    const cipher = crypto.createCipheriv('aes-256-cbc', symmetricKey, iv); // Crear el cifrador AES
-    let encryptedMessage = cipher.update(message, 'utf8', 'hex'); // Cifrar el mensaje
-    encryptedMessage += cipher.final('hex'); // Finalizar el cifrado
-    return { iv: iv.toString('hex'), encryptedMessage }; // Retornar IV y mensaje cifrado
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv('aes-256-cbc', symmetricKey, iv);
+    let encryptedMessage = cipher.update(message, 'utf8', 'hex');
+    encryptedMessage += cipher.final('hex');
+    return { iv: iv.toString('hex'), encryptedMessage };
 };
 
 // Función para descifrar un mensaje usando AES
 const decryptMessage = (encryptedMessage, symmetricKey, iv) => {
-    const decipher = crypto.createDecipheriv('aes-256-cbc', symmetricKey, Buffer.from(iv, 'hex')); // Crear el descifrador AES
-    let decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8'); // Descifrar el mensaje
-    decryptedMessage += decipher.final('utf8'); // Finalizar el descifrado
-    return decryptedMessage; // Retornar el mensaje descifrado
+    const decipher = crypto.createDecipheriv('aes-256-cbc', symmetricKey, Buffer.from(iv, 'hex'));
+    let decryptedMessage = decipher.update(encryptedMessage, 'hex', 'utf8');
+    decryptedMessage += decipher.final('utf8');
+    return decryptedMessage;
 };
 
 // Función para hash SHA-256
-const hashMessage = (message) => crypto.createHash('sha256').update(message).digest('hex'); // Generar un hash del mensaje
+const hashMessage = (message) => crypto.createHash('sha256').update(message).digest('hex');
 
 io.on('connection', (socket) => {
     console.log('A user has connected');
@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
             return;
         }
 
-        socket.username = username; // Almacenar el nombre de usuario
+        socket.username = username;
         connectedUsers.push(username);
         io.emit('user connected', connectedUsers);
         socket.emit('load previous messages', messages);
@@ -68,22 +68,21 @@ io.on('connection', (socket) => {
     // Manejo del mensaje del usuario
     socket.on('chat message', async ({ msg, username }) => {
         try {
-            const symmetricKey = generateSymmetricKey(); // Generar clave simétrica
-            const { iv, encryptedMessage } = encryptMessage(msg, symmetricKey); // Cifrar mensaje
-            const signature = UserRepository.signMessage(msg, username); // Firmar mensaje
-            const messageHash = hashMessage(msg); // Generar hash para verificar integridad
+            const symmetricKey = generateSymmetricKey();
+            const { iv, encryptedMessage } = encryptMessage(msg, symmetricKey);
+            const signature = UserRepository.signMessage(msg, username);
+            const messageHash = hashMessage(msg);
             
-            // Crear objeto de mensaje con datos relevantes
             const messageWithSignature = {
-                msg: decryptMessage(encryptedMessage, symmetricKey, iv), // Mostrar el mensaje descifrado
+                msg: decryptMessage(encryptedMessage, symmetricKey, iv),
                 iv,
                 signature,
                 username,
-                hash: messageHash // Hash del mensaje para integridad
+                hash: messageHash
             };
 
-            messages.push(messageWithSignature); // Almacenar mensaje
-            io.emit('chat message', messageWithSignature); // Emitir mensaje al chat
+            messages.push(messageWithSignature);
+            io.emit('chat message', messageWithSignature);
         } catch (error) {
             console.error('Error al procesar el mensaje:', error);
         }
@@ -95,6 +94,12 @@ io.on('connection', (socket) => {
         if (index > -1) {
             connectedUsers.splice(index, 1);
             io.emit('user connected', connectedUsers);
+        }
+
+        // Limpiar mensajes si no hay usuarios conectados
+        if (connectedUsers.length === 0) {
+            messages.length = 0;
+            console.log('All messages have been cleared');
         }
     });
 });
