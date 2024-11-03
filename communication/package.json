@@ -5,15 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "install-deps": "cd src && npm install",
+    "install-deps": "npm install", // Cambiado para que no cambie de directorio
     "start": "node src/index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "engines": {
-    "node": ">=22.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3", 
