@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <%- include('partials/head') %>
+</head>
+
+<body>
+    <%- include('partials/navigation') %>
+
+    <div class="d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card p-4 shadow-lg register-card" style="max-width: 400px;">
+            <h2 class="text-center mb-4">Registro</h2>
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn w-100" style="background-color: #b58cbb; color: white;">Registrar</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="notification" class="alert alert-danger" style="display: none;"></div>
+   
+    <div id="alertMessage" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none; position: fixed; top: 20px; right: 20px; z-index: 1050;">
+        Usuario ya registrado
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        const loginForm = document.getElementById('registerForm'); 
+        const notification = document.getElementById('notification');
+
+        loginForm?.addEventListener('submit', e => {
+        e.preventDefault(); // Previene la recarga de la página
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        fetch('/signup', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(res => res.json()) // Convierte la respuesta a JSON
+        .then(data => {
+            console.log(data); // Ver la respuesta
+
+            if (data.message === 'Registro exitoso') {
+                const link = document.createElement('a'); // Crear un nuevo elemento <a>
+                link.href = `/views/llaves/${data.fileName}`; 
+                link.download = data.fileName; // Configura el atributo de descarga
+                document.body.appendChild(link); // Añadir al DOM
+                link.click(); // Simular clic en el enlace para iniciar la descarga
+                document.body.removeChild(link); // Eliminar el enlace del DOM
+
+                notification.innerText = 'Registro exitoso. Descargando llave privada... ';
+                notification.style.color = 'green';
+                notification.style.display = 'block'; // Muestra el mensaje
+                setTimeout(() => {
+                fetch(`/deleteKey/${data.fileName}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Error al eliminar la llave');
+                        console.log('Llave eliminada exitosamente');
+                    })
+                    .catch(err => console.error('Error:', err));
+        
+                    window.location.href = '/signin';
+                }, 2000);
+                
+            } else {
+                notification.innerText = 'Error al registrarse. Usuario ya está registrado.';
+                notification.style.color = 'red';
+                notification.style.display = 'block'; // Muestra el mensaje
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            notification.innerText = 'Ingresaste mal tus datos o ese usuario ya esta registrado Intentalo de nuevo.';
+            notification.style.color = 'red';
+            notification.style.display = 'block'; // Muestra el mensaje
+        });
+    });
+
+    </script>
+</body>
+
+</html>

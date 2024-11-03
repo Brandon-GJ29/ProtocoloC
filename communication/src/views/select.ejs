@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <%- include('partials/navigation') %>
+
+    <div id="usernameForm" style="display: none;">
+        <input type="text" id="usernameInput" placeholder="Elige tu nombre de usuario">
+        <button onclick="setUsername()">Establecer nombre</button>
+    </div>
+
+    <div class="container user-select-container">
+        <div class="user-select-header d-flex justify-content-between align-items-center p-2">
+            <span>Selecciona un Usuario para Conversar</span>
+        </div>
+
+        <div class="user-list p-3" id="userList">
+            <!-- Los nombres de usuario se llenarán aquí como botones -->
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script type="module">
+        const socket = io();
+
+        window.onload = () => {
+            const username = sessionStorage.getItem('username');
+            if (!username) {
+                document.getElementById('usernameForm').style.display = 'block'; // Muestra el formulario si no hay nombre
+            } else {
+                addUserToList(username);
+                socket.emit('set username', username); // Envía el nombre al servidor
+            }
+        };
+
+        function addUserToList(username) {
+            const userList = document.getElementById('userList');
+            const button = document.createElement('button');
+            button.innerText = `${username} (tú)`;
+            button.onclick = () => selectUser(username); // Asigna la función aquí
+            userList.appendChild(button);
+        }
+
+        function setUsername() {
+            const username = document.getElementById('usernameInput').value;
+            sessionStorage.setItem('username', username); // Almacena el nombre en sessionStorage
+            socket.emit('set username', username); // Envía el nombre al servidor
+            addUserToList(username); // Agrega el usuario a la lista
+            document.getElementById('usernameForm').style.display = 'none'; // Oculta el formulario
+        }
+
+        socket.on('user connected', (users) => {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = ''; // Limpiar la lista
+            users.forEach(user => {
+                const button = document.createElement('button');
+                button.innerText = user;
+                button.onclick = () => selectUser(user); // Asigna la función aquí
+                userList.appendChild(button);
+            });
+        });
+
+        socket.on('chat full', () => {
+            alert('El chat ya está lleno. No puedes unirte en este momento.'); // Notificación al usuario
+            document.getElementById('usernameForm').style.display = 'none'; // Ocultar el formulario si ya está lleno
+        });
+
+        function selectUser(user) {
+            const currentUsername = sessionStorage.getItem('username');
+            if (currentUsername) {
+                sessionStorage.setItem('selectedUser', user); // Almacena el usuario seleccionado
+                // Redirige a la página de chat con el usuario seleccionado y el usuario actual
+                window.location.href = `/chat?user=${encodeURIComponent(user)}&currentUser=${encodeURIComponent(currentUsername)}`; 
+            }
+        }
+    </script>
+
+    <%- include('partials/head') %>
+</body>
+</html>

@@ -1,0 +1,291 @@
+/* Estilos para el fondo de la página */
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/gradient.jpg');
+    font-family: 'BEBAS', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: #e0c0e1; /* Color de texto predeterminado */
+}
+
+h1{font-size: 9vw;; }
+html{
+    scroll-behavior: smooth;
+}
+
+
+/* Aseguramos que el contenido esté centrado y en una columna */
+.container {
+    background: rgba(73, 0, 52, 0.8); /* Color de fondo con transparencia */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    max-width: 800px;
+    width: 90%;
+    margin: auto;
+}
+
+/* Estilos para la barra de navegación */
+.navbar {
+    background-color: rgba(73, 0, 52, 0.8) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.navbar .nav-link {
+    color: #e0c0e1 !important;
+    font-weight: bold !important;
+}
+
+.navbar-brand {
+    color: #e0c0e1 !important;
+    font-weight: bold !important;
+}
+
+.navbar-toggler {
+    background-color: #b58cbb !important;
+}
+
+.navbar-toggler-icon {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Estilos para el footer */
+.footer {
+    background-color: rgba(73, 0, 52, 0.8);
+    color: #e0c0e1;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+    padding: 5px; /* Reducido de 20px a 10px */
+    text-align: center;
+    width: 100%; /* Ocupa todo el ancho */
+    font-size: 0.6rem; /* Tamaño de fuente más pequeño */
+}
+
+.footer p {
+    margin: 0;
+    font-weight: bold;
+    color: #e0c0e1;
+    line-height: 1.4; /* Reduce el espaciado vertical entre líneas */
+}
+
+
+/* Estilo para la tarjeta de registro */
+.register-card {
+    background: rgba(73, 0, 52, 0.8); /* Fondo morado semitransparente */
+    border-radius: 10px;
+}
+
+.register-card h2 {
+    color: #e0c0e1; /* Color morado claro para el título */
+}
+
+.register-card .form-label {
+    color: #e0c0e1; /* Color morado claro para las etiquetas */
+}
+
+.register-card .form-control {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2); /* Fondo semitransparente para los campos de entrada */
+    border: 1px solid #e0c0e1; /* Bordes morados */
+}
+
+.register-card .form-control:focus {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.3); /* Fondo ligeramente más claro al enfocar */
+    border-color: #b58cbb; /* Bordes morados claros al enfocar */
+}
+
+.register-card .btn {
+    background-color: #b58cbb; /* Color morado claro para el botón */
+}
+
+.register-card .btn:hover {
+    background-color: #a77caa; /* Color más oscuro en el hover */
+}
+/* Estilo para la tarjeta de inicio de sesión */
+.signin-card {
+    background: rgba(73, 0, 52, 0.8); /* Fondo morado semitransparente */
+    border-radius: 10px;
+}
+
+.signin-card h2 {
+    color: #e0c0e1; /* Color morado claro para el título */
+}
+
+.signin-card .form-label {
+    color: #e0c0e1; /* Color morado claro para las etiquetas */
+}
+
+.signin-card .form-control {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2); /* Fondo semitransparente para los campos de entrada */
+    border: 1px solid #e0c0e1; /* Bordes morados */
+}
+
+.signin-card .form-control:focus {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.3); /* Fondo ligeramente más claro al enfocar */
+    border-color: #b58cbb; /* Bordes morados claros al enfocar */
+}
+
+.signin-card .btn {
+    background-color: #b58cbb; /* Color morado claro para el botón */
+}
+
+.signin-card .btn:hover {
+    background-color: #a77caa; /* Color más oscuro en el hover */
+}
+/* Estilos generales de chat */
+.chat-container {
+    max-width: 800px;
+    margin: auto;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo de la barra superior */
+.chat-header {
+    background-color: #8c7b9a;
+    color: white;
+    font-weight: bold;
+}
+
+/* Área de mensajes */
+.chat-messages {
+    height: 400px;
+    overflow-y: scroll;
+    background-color: #e9e9e9;
+    padding: 10px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    max-width: 70%;
+}
+
+.message.received {
+    background-color: #d3d3d3;
+    align-self: flex-start;
+}
+
+.message.sent {
+    background-color: #b58cbb;
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+/* Área de entrada de mensajes */
+.chat-input {
+    background-color: #f1f1f1;
+}
+
+.chat-input input {
+    flex: 1;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.chat-input button {
+    background-color: #8c7b9a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.chat-input button:hover {
+    background-color: #6b5c7a;
+}
+
+
+
+button{
+    font-size: 1em;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, .5);
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    justify-content: center;
+}
+
+button:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+#Home{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction:  column;
+    height: 90vh;
+    color: rgb(255, 255, 255);
+    background-image:linear-gradient(
+        0deg,
+        rgba(0,0,0,.5),
+        rgba(0,0,0,.5)
+        
+    ) 
+    ,url(/Imagenes/Fondo1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+
+}
+
+input{
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+}
+
+.btn {
+    background-color: #b58cbb; /* Color de fondo inicial */
+    color: white; /* Color del texto */
+    font-size: 1em; /* Ajusta el tamaño de la fuente */
+    font-weight: bold; /* Negrita */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 20px; /* Bordes redondeados */
+    border: none; /* Sin borde */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, .5); /* Sombra */
+    transition: background-color 0.3s, color 0.3s; /* Suaviza la transición */
+    width: 100%; /* Ancho completo */
+}
+
+.btn:hover {
+    background-color: #a16999; /* Color de fondo en hover (ajusta según tus preferencias) */
+    color: yellow; /* Cambia el color del texto en hover */
+}
+
+
+#enviarButton {
+    padding: 15px 30px; /* Ajusta el tamaño vertical y horizontal */
+    font-size: 1.2em; /* Cambia el tamaño de la fuente */
+    border-radius: 10px; /* Ajusta el redondeado de los bordes */
+    background-color: #b58cbb; /* Cambia el color de fondo */
+    color: white; /* Cambia el color del texto */
+}
+
+
+/* Estilo para el botón específico */
+#enviarButton.btn.btn-dark {
+    width: 120px; /* Cambia este valor según el tamaño que desees */
+    padding: 5px 10px; /* Ajusta el padding para hacerlo más pequeño */
+    background-color: #b58cbb; /* Color de fondo personalizado */
+    color: white; /* Color del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    border: none; /* Opcional: quitar borde */
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/navigation') %>
+
+    <!-- Contenedor de centrado para el formulario de carga de archivos -->
+    <div class="d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card p-4 shadow-lg signin-card" style="max-width: 400px;">
+            <h2 class="text-center mb-4">Login</h2>
+            <form action="/signin" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="file" class="form-label">Selecciona un archivo</label>
+                    <input type="file" class="form-control" id="file" name="file" required>
+                </div>
+                <button type="submit" class="btn w-100" style="background-color: #b58cbb; color: white;">Iniciar Sesion</button>
+            </form>
+            <div class="text-center mt-3">
+                <a href="/signup" class="text-decoration-none" style="color: #e0c0e1;">Crear cuenta</a>
+            </div>
+            <div id="notification" style="display: none;"></div> <!-- Elemento para las notificaciones -->
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        const loginForm = document.querySelector('form'); // Selecciona el formulario de inicio de sesión
+        const notification = document.getElementById('notification'); // Asegúrate de tener un elemento para las notificaciones
+
+        loginForm?.addEventListener('submit', e => {
+            e.preventDefault(); // Previene la recarga de la página
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const fileInput = document.getElementById('file').files[0]; // Obtener el archivo seleccionado
+
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('password', password);
+            formData.append('file', fileInput);
+
+            fetch('/signin', { 
+                method: 'POST',
+                body: formData // Enviar FormData para manejar archivos
+            })
+            .then(res => res.json()) // Convierte la respuesta a JSON
+            .then(data => {
+                console.log(data); // Ver la respuesta
+
+                if (data.message === 'Inicio de sesión exitoso') {
+                    notification.innerText = '¡Bienvenido! Redirigiendo...';
+                    notification.style.color = 'green';
+                    notification.style.display = 'block'; // Muestra el mensaje
+                    setTimeout(() => {
+                        
+                        sessionStorage.setItem('username', username);
+                        window.location.href = '/select'; // Redirigir a la página principal
+                        
+                    }, 2000);
+                    
+                } else {
+                    notification.innerText = 'Error al iniciar sesión. Verifica tus datos.';
+                    notification.style.color = 'red';
+                    notification.style.display = 'block'; // Muestra el mensaje
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                notification.innerText = 'Hubo un problema al iniciar sesión. Intenta de nuevo.';
+                notification.style.color = 'red';
+                notification.style.display = 'block'; // Muestra el mensaje
+            });
+        });
+    </script>
+</body>
+</html>

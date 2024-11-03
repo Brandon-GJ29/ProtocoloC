@@ -1,0 +1,55 @@
+/* navbar.css */
+.navbarcont {
+    background: rgba(73, 0, 52, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    max-width: 800px;
+    width: 90%;
+    margin: auto;
+}
+
+h1{font-size: 9vw;; }
+#Home .botones{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center ;
+    margin: 0;
+    padding: 0;
+
+    gap: 10px; 
+    margin-top: 10px; 
+
+}
+
+.botones a {
+    margin-right: 20px; /* Ajusta el valor según la separación que desees */
+}
+
+.botones a:last-child {
+    margin-right: 0; /* Elimina el margen del último ícono */
+}
+/* Estilos para la barra de navegación */
+.navbar {
+    background-color: rgba(73, 0, 52, 0.8) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.navbar .nav-link {
+    color: #e0c0e1 !important;
+    font-weight: bold !important;
+}
+
+.navbar-brand {
+    color: #e0c0e1 !important;
+    font-weight: bold !important;
+}
+
+.navbar-toggler {
+    background-color: #b58cbb !important;
+}
+
+.navbar-toggler-icon {
+    filter: brightness(0) invert(1) !important;
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="https://kit.fontawesome.com/eeb5c431c2.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title><%= title %></title>
+    <link rel="stylesheet" href="style2.css">
+    <script type="module">
+        import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js';
+        const socket = io(); // Inicializar socket.io
+        const form = document.getElementById('form');
+        const input = document.getElementById('input');
+        const messages = document.getElementById('messages');
+
+        // Obtener el nombre del usuario seleccionado de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedUser = urlParams.get('user');
+        if (selectedUser) {
+            document.title = `Chat con ${selectedUser}`;
+            const header = document.querySelector('.chat-header span');
+            header.textContent = `Chat con ${selectedUser}`;
+
+            // Unirse al chat enviando el nombre de usuario
+            socket.emit('set username', selectedUser);
+        }
+
+        // Manejar el caso cuando el chat está lleno
+        socket.on('chat full', () => {
+            alert('No puedes ingresar ahora, intenta más tarde.');
+            window.location.href = '/'; // Redirigir a la página principal
+        });
+
+        // Cargar mensajes anteriores del servidor
+        socket.on('load previous messages', (msgHistory) => {
+            messages.innerHTML = ''; // Limpiar mensajes existentes
+            msgHistory.forEach(({ msg, iv, signature, username, hash }) => {
+                const item = document.createElement('li');
+                item.textContent = `${username}: ${msg} (firmado: ${signature}, hash: ${hash})`;
+                messages.appendChild(item);   
+            });
+        });
+
+        // Manejar nuevos mensajes del servidor
+        socket.on('chat message', ({ msg, iv, signature, username, hash }) => {
+            const item = document.createElement('li');
+            item.textContent = `${username}: ${msg} (firmado: ${signature}, hash: ${hash})`;
+            messages.appendChild(item);
+            // Aquí podrías agregar la lógica para descifrar el mensaje si es necesario
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Evitar el comportamiento por defecto del formulario
+            const username = sessionStorage.getItem('username') || 'anonymous';
+            if (input.value) {
+                const msg = input.value;
+                // Enviar el mensaje sin el nombre en el objeto
+                socket.emit('chat message', { msg, username });
+                input.value = ''; // Limpiar el input después de enviar el mensaje
+            }
+        });
+    </script>
+
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/navigation') %>
+
+    <div class="container chat-container">
+        <div class="chat-header d-flex justify-content-between align-items-center p-2">
+            <span>Chat</span>
+        </div>
+
+        <div class="chat-messages p-3">
+            <ul id="messages">
+                <!-- Mensajes se llenarán aquí -->
+            </ul>
+        </div>
+
+        <div class="chat-input d-flex align-items-center p-2">
+            <form id="form" class="d-flex w-100">
+                <input id="input" type="text" class="form-control mx-2" placeholder="Escribe tu mensaje..." required>
+                <button type="submit" id="enviarButton" class="btn btn-dark mx-2">
+                    <i class="fa-regular fa-paper-plane fa-bounce"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
