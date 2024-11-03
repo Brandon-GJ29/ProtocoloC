@@ -4,7 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "install-deps": "cd src && npm install",
+    "start": "node src/index.js"  // Agregado para que funcione en producción
   },
   "keywords": [],
   "author": "",
